@@ -9,6 +9,5 @@ struct Node {
 	string ufid;
 	Node* left;
 	Node* right;
-	int depth;
 	Node();
 };
