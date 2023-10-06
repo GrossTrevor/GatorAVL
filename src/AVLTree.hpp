@@ -186,23 +186,73 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	node->height = 1 + std::max(node->left ? node->left->height : 0, node->right ? node->right->height : 0);
 
 	if (node->left != nullptr && node->right != nullptr && (node->left->height - node->right->height) > 1) {
-		cout << "node->left->height " << node->left->height << endl;
-		cout << "node->right->height " << node->right->height << endl;
-		node = ShiftRight(node);
+		if(node->left->left != nullptr && node->left->right != nullptr && node->left->left->height > node->left->right->height)
+			node = ShiftRight(node);
+		else if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height < node->left->right->height) {
+			node->left = ShiftLeft(node->left);
+			node = ShiftRight(node);
+		}
+		else if (node->left->left != nullptr && node->left->right == nullptr)
+			node = ShiftRight(node);
+		else if (node->left != nullptr && node->left->right != nullptr) {
+			node->left = ShiftLeft(node->left);
+			node = ShiftRight(node);
+		}
+		else {
+			node = ShiftRight(node);
+		}
 	}
 	else if (node->left != nullptr && node->right == nullptr && node->left->height > 1) {
-		cout << "node->left->height " << node->left->height << endl;
-		node = ShiftRight(node);
+		if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height > node->left->right->height)
+			node = ShiftRight(node);
+		else if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height < node->left->right->height) {
+			node->left = ShiftLeft(node->left);
+			node = ShiftRight(node);
+		}
+		else if (node->left->left != nullptr && node->left->right == nullptr)
+			node = ShiftRight(node);
+		else if (node->left != nullptr && node->left->right != nullptr) {
+			node->left = ShiftLeft(node->left);
+			node = ShiftRight(node);
+		}
+		else {
+			node = ShiftRight(node);
+		}
 	}
 
-	if (node->left != nullptr && node->right != nullptr && (node->right->height - node->left->height) > 1) {
-		cout << "node->left->height " << node->left->height << endl;
-		cout << "node->right->height " << node->right->height << endl;
-		node = ShiftLeft(node);
+	else if (node->left != nullptr && node->right != nullptr && (node->right->height - node->left->height) > 1) {
+		if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height > node->right->left->height)
+			node = ShiftLeft(node);
+		else if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height < node->right->left->height) {
+			node->right = ShiftRight(node->right);
+			node = ShiftLeft(node);
+		}
+		else if (node->right->right != nullptr && node->right->left == nullptr)
+			node = ShiftLeft(node);
+		else if (node->right != nullptr && node->right->left != nullptr) {
+			node->right = ShiftRight(node->right);
+			node = ShiftLeft(node);
+		}
+		else {
+			node = ShiftLeft(node);
+		}
 	}
 	else if (node->right != nullptr && node->left == nullptr && node->right->height > 1) {
-		cout << "node->right->height " << node->right->height << endl;
-		node = ShiftLeft(node);
+		if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height > node->right->left->height)
+			node = ShiftLeft(node);
+		else if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height < node->right->left->height) {
+			node->right = ShiftRight(node->right);
+			node = ShiftLeft(node);
+		}
+		else if (node->right->right != nullptr && node->right->left == nullptr)
+			node = ShiftLeft(node);
+		else if (node->right != nullptr && node->right->left != nullptr) {
+			node->right = ShiftRight(node->right);
+			node = ShiftLeft(node);
+		}
+		else {
+			node = ShiftLeft(node);
+		}
 	}
 	return node;
 }
