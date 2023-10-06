@@ -91,56 +91,26 @@ int main() {
 			}
 
 			else if (command == "remove") {
-				index = line.find(' ');
+				ufid = line;
 
-				if (index != -1) {
-					ufid = line.substr(index + 1);
+				if (ufid.length() == 8) {
 
-					if (ufid.length() == 8) {
-
-						for (int j = 0; j < ufid.length(); j++) {
-							if (isdigit(ufid[j]) == 0) {
-								isDigit = false;
-								break;
-							}
+					for (int j = 0; j < ufid.length(); j++) {
+						if (isdigit(ufid[j]) == 0) {
+							isDigit = false;
+							break;
 						}
-
-						if (isDigit) {
-							tree.Remove(ufid);
-							run = true;
-						}
-						isDigit = true;
 					}
+					if (isDigit) {
+						tree.Remove(ufid);
+						run = true;
+					}
+					isDigit = true;
 				}
 			}
 
-			else if (command == "searchID") {
-				index = line.find(' ');
-
-				if (index != -1) {
-					ufid = line.substr(index + 1);
-
-					if (ufid.length() == 8) {
-
-						for (int j = 0; j < ufid.length(); j++) {
-							if (isdigit(ufid[j]) == 0) {
-								isDigit = false;
-								break;
-							}
-						}
-
-						if (isDigit) {
-							tree.SearchID(ufid);
-							run = true;
-						}
-						isDigit = true;
-					}
-				}
-			}
-
-			else if (command == "searchName") {
+			else if (command == "search") {
 				index = line.find('\"');
-
 				if (index != -1) {
 					line = line.substr(index + 1);
 					index = line.find('\"');
@@ -161,6 +131,27 @@ int main() {
 							tree.SearchName(name);
 							run = true;
 						}
+						isAlpha = true;
+					}
+				}
+
+				if (index == -1) {
+					ufid = line.substr(index + 1);
+
+					if (ufid.length() == 8) {
+
+						for (int j = 0; j < ufid.length(); j++) {
+							if (isdigit(ufid[j]) == 0) {
+								isDigit = false;
+								break;
+							}
+						}
+
+						if (isDigit) {
+							tree.SearchID(ufid);
+							run = true;
+						}
+						isDigit = true;
 					}
 				}
 			}

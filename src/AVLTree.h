@@ -10,14 +10,10 @@ using std::endl;
 
 class AVLTree {
 	Node* root;
-	Node* gp;
-	Node* p;
 	Node* ShiftLeft(Node* node);
 	Node* ShiftRight(Node* node);
-	int Height(Node* node);
-	void Balance(Node* grandparent, Node* parent);
 	Node* InsertHelper(Node* node, string name, string ufid);
-	void RemoveHelper(Node* node, string ufid);
+	void RemoveHelper(Node* node, string ufid, Node* parent);
 	void SearchNameHelper(string name);
 	void SearchIDHelper(Node* node, string ufid);
 	void PrintInorderHelper(Node* node);
