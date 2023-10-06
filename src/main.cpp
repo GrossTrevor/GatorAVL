@@ -14,15 +14,14 @@ using std::vector;
 using std::getline;
 using std::stoi;
 
-/* Note: 
+/* Note:
 	1. You will have to comment main() when unit testing your code because catch uses its own main().
-	2. You will submit this main.cpp file and any header files you have on Gradescope. 
+	2. You will submit this main.cpp file and any header files you have on Gradescope.
 */
 
-int main(){
-	int numLines = 0;
+int main() {
 	int index = 0;
-	int i = 0;
+	string numLinesS = "";
 	string line = "";
 	string command = "";
 	string name = "";
@@ -33,10 +32,11 @@ int main(){
 	bool run = false;
 	AVLTree tree;
 
-	cin >> numLines;
+	getline(cin, numLinesS);
+	int numLines = stoi(numLinesS);
 
-	for (int j = 0; j < numLines; j++) {
-		cin >> line;
+	for (int i = 0; i < numLines; i++) {
+		getline(cin, line);
 		index = line.find(' ');
 
 		if (index != -1) {
@@ -53,13 +53,13 @@ int main(){
 					if (index != -1) {
 						name = line.substr(0, index);
 
-						i = 0;
-						while (name[i]) {
-							if (!isalpha(name[i])) {
-								isAlpha = false;
-								break;
+						for (int j = 0; j < name.length(); j++) {
+							if (isalpha(name[j]) == 0) {
+								if (isspace(name[j]) == 0) {
+									isAlpha = false;
+									break;
+								}
 							}
-							i++;
 						}
 
 						if (isAlpha) {
@@ -71,13 +71,11 @@ int main(){
 
 								if (ufid.length() == 8) {
 
-									i = 0;
-									while (ufid[i]) {
-										if (!isdigit(ufid[i])) {
+									for (int j = 0; j < ufid.length(); j++) {
+										if (isdigit(ufid[j]) == 0) {
 											isDigit = false;
 											break;
 										}
-										i++;
 									}
 									if (isDigit) {
 										tree.Insert(name, ufid);
@@ -100,13 +98,11 @@ int main(){
 
 					if (ufid.length() == 8) {
 
-						i = 0;
-						while (ufid[i]) {
-							if (!isdigit(ufid[i])) {
+						for (int j = 0; j < ufid.length(); j++) {
+							if (isdigit(ufid[j]) == 0) {
 								isDigit = false;
 								break;
 							}
-							i++;
 						}
 
 						if (isDigit) {
@@ -126,13 +122,11 @@ int main(){
 
 					if (ufid.length() == 8) {
 
-						i = 0;
-						while (ufid[i]) {
-							if (!isdigit(ufid[i])) {
+						for (int j = 0; j < ufid.length(); j++) {
+							if (isdigit(ufid[j]) == 0) {
 								isDigit = false;
 								break;
 							}
-							i++;
 						}
 
 						if (isDigit) {
@@ -154,13 +148,13 @@ int main(){
 					if (index != -1) {
 						name = line.substr(0, index);
 
-						i = 0;
-						while (name[i]) {
-							if (!isalpha(name[i])) {
-								isAlpha = false;
-								break;
+						for (int j = 0; j < name.length(); j++) {
+							if (isalpha(name[j]) == 0) {
+								if (isspace(name[j]) == 0) {
+									isAlpha = false;
+									break;
+								}
 							}
-							i++;
 						}
 
 						if (isAlpha) {
@@ -174,13 +168,11 @@ int main(){
 			else if (command == "removeInorder") {
 				n = line.substr(index + 1);
 
-				i = 0;
-				while (n[i]) {
-					if (!isdigit(n[i])) {
+				for (int j = 0; j < n.length(); j++) {
+					if (isdigit(n[j]) == 0) {
 						isDigit = false;
 						break;
 					}
-					i++;
 				}
 
 				if (isDigit) {
@@ -218,6 +210,7 @@ int main(){
 		if (!run) {
 			cout << "unsuccessful" << endl;
 		}
+		index = 0;
 	}
 
 	return 0;

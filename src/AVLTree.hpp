@@ -11,6 +11,7 @@ bool removeFound = false;
 bool firstInorder = true;
 bool firstPreorder = true;
 bool firstPostorder = true;
+bool successfulInsert = false;
 
 int levelCount = 0;
 int removeCount = 0;
@@ -102,6 +103,7 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 		node->ufid = ufid;
 		node->left = nullptr;
 		node->right = nullptr;
+		successfulInsert = true;
 		if (firstNode) {
 			firstNode = false;
 			root = node;
@@ -123,7 +125,6 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	Balance(gp, p);
 	gp = nullptr;
 	p = nullptr;
-	cout << "successful" << endl;
 	return node;
 }
 
@@ -349,6 +350,8 @@ AVLTree::~AVLTree() {
 
 void AVLTree::Insert(string name, string ufid) {
 	InsertHelper(root, name, ufid);
+	if(successfulInsert)
+		cout << "successful" << endl;
 }
 
 void AVLTree::Remove(string ufid) {
@@ -365,14 +368,17 @@ void AVLTree::SearchID(string ufid) {
 
 void AVLTree::PrintInorder() {
 	PrintInorderHelper(root);
+	cout << endl;
 }
 
 void AVLTree::PrintPreorder() {
 	PrintPostorderHelper(root);
+	cout << endl;
 }
 
 void AVLTree::PrintPostorder() {
 	PrintPostorderHelper(root);
+	cout << endl;
 }
 
 void AVLTree::PrintLevelCount() {
