@@ -15,6 +15,86 @@ bool firstPostorder = true;
 int levelCount = 0;
 int removeCount = 0;
 
+Node* AVLTree::ShiftLeft(Node* node) {
+	Node* grandchild = node->right->left;
+	Node* newParent = node->right;
+	newParent->left = node;
+	node->right = grandchild;
+	return newParent;
+}
+
+Node* AVLTree::ShiftRight(Node* node) {
+	Node* grandchild = node->left->right;
+	Node* newParent = node->left;
+	newParent->right = node;
+	node->left = grandchild;
+	return newParent;
+}
+
+int AVLTree::Height(Node* node) {
+	if (node == nullptr) {
+		return 0;
+	}
+	queue<Node*> q;
+	int count = 0;
+	int countChild = 0;
+	int prevCountChild = 1;
+	int level = 0;
+	q.push(node);
+	while (q.empty() == false) {
+		Node* node = q.front();
+
+		if (node->left != nullptr) {
+			q.push(node->left);
+			countChild++;
+			count++;
+		}
+		else if (node->left == nullptr)
+			count++;
+
+		if (node->right != nullptr) {
+			q.push(node->right);
+			countChild++;
+			count++;
+		}
+		else if (node->right == nullptr)
+			count++;
+
+		if ((prevCountChild * 2) == count) {
+			level++;
+			prevCountChild = countChild;
+			count = 0;
+			countChild = 0;
+		}
+		q.pop();
+	}
+	return level;
+}
+
+void AVLTree::Balance(Node* grandparent, Node* parent) {
+	if (grandparent == nullptr || parent == nullptr)
+		return;
+
+	int parentBalance = Height(grandparent->left) - Height(grandparent->right);
+	int childBalance = Height(parent->left) - Height(parent->right);
+
+	if (parentBalance == 2 && childBalance == 1)
+		grandparent = ShiftRight(grandparent);
+
+	if (parentBalance == 2 && childBalance == -1) {
+		parent = ShiftLeft(parent);
+		grandparent = ShiftRight(grandparent);
+	}
+
+	if (parentBalance == -2 && childBalance == -1)
+		grandparent = ShiftLeft(grandparent);
+
+	if (parentBalance == -2 && childBalance == 1) {
+		parent = ShiftRight(parent);
+		grandparent = ShiftLeft(grandparent);
+	}
+}
+
 Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	if (node == nullptr) {
 		node = new Node;
@@ -28,7 +108,7 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 		}
 	}
 	else if (node->ufid == ufid) {
-		cout << "Unsuccessful" << endl;
+		cout << "unsuccessful" << endl;
 	}
 	else if (node->ufid > ufid) {
 		gp = p;
@@ -43,14 +123,14 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	Balance(gp, p);
 	gp = nullptr;
 	p = nullptr;
-	cout << "Successful" << endl;
+	cout << "successful" << endl;
 	return node;
 }
 
 void AVLTree::RemoveHelper(Node* node, string ufid){
 	if (node == nullptr) {
 		if(!removeFound)
-			cout << "Unsuccessful" << endl;
+			cout << "unsuccessful" << endl;
 		return;
 	}
 	if (node->ufid == ufid) {
@@ -93,7 +173,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid){
 			removeFound = true;
 			delete min;
 		}
-		cout << "Successful" << endl;
+		cout << "successful" << endl;
 		return;
 	}
 	else if (node->ufid < ufid) {
@@ -110,7 +190,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid){
 void AVLTree::SearchNameHelper(string name) {
 	bool found = false;
 	if (root == nullptr) {
-		cout << "Unsuccessful" << endl;
+		cout << "unsuccessful" << endl;
 		return;
 	}
 	Node* temp = root;
@@ -130,17 +210,17 @@ void AVLTree::SearchNameHelper(string name) {
 	}
 	delete temp;
 	if (!found)
-		cout << "Unsuccessful" << endl;
+		cout << "unsuccessful" << endl;
 }
 
 void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	if (node == nullptr) {
-		cout << "Unsuccessful" << endl;
+		cout << "unsuccessful" << endl;
 		return;
 	}
 	if (node->ufid == ufid) {
 		cout << node->name << endl;
-		cout << "Successful" << endl;
+		cout << "successful" << endl;
 		return;
 	}
 	else if (node->ufid < ufid) {
@@ -149,58 +229,6 @@ void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	else if (node->ufid > ufid) {
 		SearchIDHelper(node->left, ufid);
 	}
-}
-
-void AVLTree::PrintLevelCountHelper() {
-	if (root == nullptr) {
-		cout << "0" << endl;
-		return;
-	}
-	queue<Node*> q;
-	int count = 0;
-	int countChild = 0;
-	int prevCountChild = 1;
-	int level = 0;
-	q.push(root);
-	while (q.empty() == false) {
-		Node* node = q.front();
-
-		if (node->left != nullptr) {
-			q.push(node->left);
-			countChild++;
-			count++;
-		}
-		else if (node->left == nullptr)
-			count++;
-
-		if (node->right != nullptr) {
-			q.push(node->right);
-			countChild++;
-			count++;
-		}
-		else if (node->right == nullptr)
-			count++;
-
-		if ((prevCountChild * 2) == count) {
-			level++;
-			prevCountChild = countChild;
-			count = 0;
-			countChild = 0;
-		}
-		q.pop();
-	}
-	cout << level << endl;
-}
-
-void AVLTree::RemoveInorderHelper(Node* node, int n){
-	if (node == nullptr)
-		return;
-	RemoveInorderHelper(node->left, n);
-	if (n == 0) {
-		Remove(node->ufid);
-		return;
-	}
-	RemoveInorderHelper(node->right, n - 1);
 }
 
 void AVLTree::PrintInorderHelper(Node* node) {
@@ -244,73 +272,17 @@ void AVLTree::PrintPostorderHelper(Node* node) {
 		cout << ", " << node->name;
 }
 
-AVLTree::AVLTree() {
-	root = nullptr;
-	gp = nullptr;
-	p = nullptr;
-}
-
-AVLTree::~AVLTree() {
-	if (root != nullptr){
-		Node* temp = root;
-		stack<Node*> s;
-		s.push(temp);
-		while (temp != nullptr) {
-			temp = s.top();
-			s.pop();
-			if (temp->right != nullptr)
-				s.push(temp->right);
-			if (temp->left != nullptr)
-				s.push(temp->left);
-			delete temp;
-		}
-	}
-}
-
-Node* AVLTree::IncrementGrandparent(Node* grandparent, Node* parent) {
-	grandparent = parent;
-	return grandparent;
-}
-
-Node* AVLTree::IncrementParent(Node* parent, Node* child) {
-	parent = child;
-	return parent;
-}
-
-void AVLTree::Balance(Node* grandparent, Node* parent) {
-	if (grandparent == nullptr || parent == nullptr)
+void AVLTree::PrintLevelCountHelper() {
+	if (root == nullptr) {
+		cout << "0" << endl;
 		return;
-
-	int parentBalance = Height(grandparent->left) - Height(grandparent->right);
-	int childBalance = Height(parent->left) - Height(parent->right);
-
-	if (parentBalance == 2 && childBalance == 1)
-		grandparent = ShiftRight(grandparent);
-
-	if (parentBalance == 2 && childBalance == -1) {
-		parent = ShiftLeft(parent);
-		grandparent = ShiftRight(grandparent);
-	}
-
-	if (parentBalance == -2 && childBalance == -1)
-		grandparent = ShiftLeft(grandparent);
-	
-	if (parentBalance == -2 && childBalance == 1) {
-		parent = ShiftRight(parent);
-		grandparent = ShiftLeft(grandparent);
-	}
-}
-
-int AVLTree::Height(Node* node) {
-	if (node == nullptr) {
-		return 0;
 	}
 	queue<Node*> q;
 	int count = 0;
 	int countChild = 0;
 	int prevCountChild = 1;
 	int level = 0;
-	q.push(node);
+	q.push(root);
 	while (q.empty() == false) {
 		Node* node = q.front();
 
@@ -338,23 +310,41 @@ int AVLTree::Height(Node* node) {
 		}
 		q.pop();
 	}
-	cout << "Number of levels in tree: " << level << endl;
+	cout << level << endl;
 }
 
-Node* AVLTree::ShiftLeft(Node* node) {
-	Node* grandchild = node->right->left;
-	Node* newParent = node->right;
-	newParent->left = node;
-	node->right = grandchild;
-	return newParent;
+void AVLTree::RemoveInorderHelper(Node* node, int n) {
+	if (node == nullptr)
+		return;
+	RemoveInorderHelper(node->left, n);
+	if (n == 0) {
+		Remove(node->ufid);
+		return;
+	}
+	RemoveInorderHelper(node->right, n - 1);
 }
 
-Node* AVLTree::ShiftRight(Node* node) {
-	Node* grandchild = node->left->right;
-	Node* newParent = node->left;
-	newParent->right = node;
-	node->left = grandchild;
-	return newParent;
+AVLTree::AVLTree() {
+	root = nullptr;
+	gp = nullptr;
+	p = nullptr;
+}
+
+AVLTree::~AVLTree() {
+	if (root != nullptr){
+		Node* temp = root;
+		stack<Node*> s;
+		s.push(temp);
+		while (temp != nullptr) {
+			temp = s.top();
+			s.pop();
+			if (temp->right != nullptr)
+				s.push(temp->right);
+			if (temp->left != nullptr)
+				s.push(temp->left);
+			delete temp;
+		}
+	}
 }
 
 void AVLTree::Insert(string name, string ufid) {
@@ -389,6 +379,6 @@ void AVLTree::PrintLevelCount() {
 	PrintLevelCountHelper();
 }
 
-void AVLTree::RemoveInorder(Node* node, int n) {
-	RemoveInorderHelper(node, n);
+void AVLTree::RemoveInorder(int n) {
+	RemoveInorderHelper(root, n);
 }

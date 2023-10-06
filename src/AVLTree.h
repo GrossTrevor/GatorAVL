@@ -16,17 +16,15 @@ class AVLTree {
 	Node* ShiftRight(Node* node);
 	int Height(Node* node);
 	void Balance(Node* grandparent, Node* parent);
-	void IncrementGrandparent(Node* grandparent, Node* parent);
-	void IncrementParent(Node* parent, Node* child);
 	Node* InsertHelper(Node* node, string name, string ufid);
 	void RemoveHelper(Node* node, string ufid);
 	void SearchNameHelper(string name);
 	void SearchIDHelper(Node* node, string ufid);
-	void PrintLevelCountHelper();
-	void RemoveInorderHelper(Node* node, int n);
 	void PrintInorderHelper(Node* node);
 	void PrintPreorderHelper(Node* node);
 	void PrintPostorderHelper(Node* node);
+	void PrintLevelCountHelper();
+	void RemoveInorderHelper(Node* node, int n);
 
 public:
 	AVLTree();

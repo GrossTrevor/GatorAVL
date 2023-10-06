@@ -35,8 +35,8 @@ int main(){
 
 	cin >> numLines;
 
-	for (int i = 0; i < numLines; i++) {
-		getline(cin, line);
+	for (int j = 0; j < numLines; j++) {
+		cin >> line;
 		index = line.find(' ');
 
 		if (index != -1) {
