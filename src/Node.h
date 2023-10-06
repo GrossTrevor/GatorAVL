@@ -8,5 +8,6 @@ struct Node {
 	string ufid;
 	Node* left;
 	Node* right;
+	int height;
 	Node();
 };

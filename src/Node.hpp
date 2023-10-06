@@ -5,4 +5,5 @@ Node::Node() {
 	this->ufid = "";
 	this->left = nullptr;
 	this->right = nullptr;
+	this->height = 0;
 }
