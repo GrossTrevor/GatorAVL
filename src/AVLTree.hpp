@@ -1,4 +1,4 @@
-#include <AVLTree.h>
+#include "AVLTree.h"
 
 using std::string;
 using std::cout;
@@ -15,7 +15,7 @@ bool firstPostorder = true;
 int levelCount = 0;
 int removeCount = 0;
 
-void AVLTree::InsertHelper(Node* node, string name, string ufid) {
+Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	if (node == nullptr) {
 		node = new Node;
 		node->name = name;
@@ -29,7 +29,6 @@ void AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	}
 	else if (node->ufid == ufid) {
 		cout << "Unsuccessful" << endl;
-		return;
 	}
 	else if (node->ufid > ufid) {
 		gp = p;
@@ -45,9 +44,10 @@ void AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	gp = nullptr;
 	p = nullptr;
 	cout << "Successful" << endl;
+	return node;
 }
 
-void RemoveHelper(Node* node, string ufid){
+void AVLTree::RemoveHelper(Node* node, string ufid){
 	if (node == nullptr) {
 		if(!removeFound)
 			cout << "Unsuccessful" << endl;
@@ -107,33 +107,33 @@ void RemoveHelper(Node* node, string ufid){
 	p = nullptr;
 }
 
-void SearchNameHelper(string name) {
+void AVLTree::SearchNameHelper(string name) {
 	bool found = false;
-	if (root == nullptr)
+	if (root == nullptr) {
 		cout << "Unsuccessful" << endl;
+		return;
+	}
 	Node* temp = root;
 	stack<Node*> s;
 	s.push(temp);
-	else {
-		while (temp != nullptr) {
-			temp = s.top();
-			s.pop();
-			if (temp->name == name) {
-				cout << temp->ufid << endl;
-				found = true;
-			}
-			if (temp->right != nullptr)
-				s.push(temp->right);
-			if (temp->left != nullptr)
-				s.push(temp->left);
+	while (temp != nullptr) {
+		temp = s.top();
+		s.pop();
+		if (temp->name == name) {
+			cout << temp->ufid << endl;
+			found = true;
 		}
+		if (temp->right != nullptr)
+			s.push(temp->right);
+		if (temp->left != nullptr)
+			s.push(temp->left);
 	}
 	delete temp;
 	if (!found)
 		cout << "Unsuccessful" << endl;
 }
 
-void SearchIDHelper(Node* node, string ufid) {
+void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	if (node == nullptr) {
 		cout << "Unsuccessful" << endl;
 		return;
@@ -151,9 +151,9 @@ void SearchIDHelper(Node* node, string ufid) {
 	}
 }
 
-void PrintLevelCountHelper() {
+void AVLTree::PrintLevelCountHelper() {
 	if (root == nullptr) {
-		cout << "Number of levels in tree: 0" << endl;
+		cout << "0" << endl;
 		return;
 	}
 	queue<Node*> q;
@@ -189,10 +189,10 @@ void PrintLevelCountHelper() {
 		}
 		q.pop();
 	}
-	cout << "Number of levels in tree: " << level << endl;
+	cout << level << endl;
 }
 
-void RemoveInorderHelper(Node* node, int n){
+void AVLTree::RemoveInorderHelper(Node* node, int n){
 	if (node == nullptr)
 		return;
 	RemoveInorderHelper(node->left, n);
@@ -203,7 +203,7 @@ void RemoveInorderHelper(Node* node, int n){
 	RemoveInorderHelper(node->right, n - 1);
 }
 
-void PrintInorderHelper(Node* node) {
+void AVLTree::PrintInorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
 	PrintInorderHelper(node->left);
@@ -218,7 +218,7 @@ void PrintInorderHelper(Node* node) {
 
 }
 
-void PrintPreorderHelper(Node* node) {
+void AVLTree::PrintPreorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
 	if (firstPreorder) {
@@ -231,7 +231,7 @@ void PrintPreorderHelper(Node* node) {
 	PrintPreorderHelper(node->right);
 }
 
-void PrintPostorderHelper(Node* node) {
+void AVLTree::PrintPostorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
 	PrintPostorderHelper(node->left);
@@ -246,15 +246,25 @@ void PrintPostorderHelper(Node* node) {
 
 AVLTree::AVLTree() {
 	root = nullptr;
-	grandparent = nullptr;
-	parent = nullptr;
+	gp = nullptr;
+	p = nullptr;
 }
 
 AVLTree::~AVLTree() {
-
-	delete root;
-	delete grandparent;
-	delete parent;
+	if (root != nullptr){
+		Node* temp = root;
+		stack<Node*> s;
+		s.push(temp);
+		while (temp != nullptr) {
+			temp = s.top();
+			s.pop();
+			if (temp->right != nullptr)
+				s.push(temp->right);
+			if (temp->left != nullptr)
+				s.push(temp->left);
+			delete temp;
+		}
+	}
 }
 
 Node* AVLTree::IncrementGrandparent(Node* grandparent, Node* parent) {
@@ -348,25 +358,7 @@ Node* AVLTree::ShiftRight(Node* node) {
 }
 
 void AVLTree::Insert(string name, string ufid) {
-	bool found = false;
-	Node* temp = root;
-	while (temp != nullptr) {
-		if (temp == ufid) {
-			found = true;
-			break;
-		}
-		else if (temp < ufid)
-			temp = temp->right;
-		else if (temp > ufid)
-			temp = temp->left;
-	}
-	if (found)
-		cout << "Unsuccessful" << endl;
-	delete temp;
-	if (!found) {
-		InsertHelper(root, name, ufid);
-		cout << "Successful" << endl;
-	}
+	InsertHelper(root, name, ufid);
 }
 
 void AVLTree::Remove(string ufid) {

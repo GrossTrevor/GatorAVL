@@ -2,28 +2,27 @@
 #include <string>
 #include <queue>
 #include <stack>
-#include <Node.h>
+#include "Node.h"
 
 using std::string;
 using std::cout;
 using std::endl;
 
 class AVLTree {
-private:
 	Node* root;
 	Node* gp;
 	Node* p;
-	void InsertHelper(Node* node, string name, string ufid);
-	void Balance(Node* grandparent, Node* parent);
 	Node* ShiftLeft(Node* node);
 	Node* ShiftRight(Node* node);
 	int Height(Node* node);
+	void Balance(Node* grandparent, Node* parent);
 	void IncrementGrandparent(Node* grandparent, Node* parent);
 	void IncrementParent(Node* parent, Node* child);
+	Node* InsertHelper(Node* node, string name, string ufid);
 	void RemoveHelper(Node* node, string ufid);
 	void SearchNameHelper(string name);
 	void SearchIDHelper(Node* node, string ufid);
-	void PrintLevelCountHelper(Node* node);
+	void PrintLevelCountHelper();
 	void RemoveInorderHelper(Node* node, int n);
 	void PrintInorderHelper(Node* node);
 	void PrintPreorderHelper(Node* node);
@@ -40,5 +39,5 @@ public:
 	void PrintPreorder();
 	void PrintPostorder();
 	void PrintLevelCount();
-	void RemoveInorder(Node* node, int n);
+	void RemoveInorder(int n);
 };
