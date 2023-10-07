@@ -10,6 +10,7 @@ using std::endl;
 
 class AVLTree {
 	Node* root;
+	Node* GetRoot();
 	Node* ShiftLeft(Node* node);
 	Node* ShiftRight(Node* node);
 	Node* InsertHelper(Node* node, string name, string ufid);

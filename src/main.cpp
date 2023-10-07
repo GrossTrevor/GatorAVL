@@ -73,6 +73,7 @@ int main() {
 
 									for (int j = 0; j < ufid.length(); j++) {
 										if (isdigit(ufid[j]) == 0) {
+											cout << "isdigit false" << endl;
 											isDigit = false;
 											break;
 										}
@@ -157,7 +158,7 @@ int main() {
 			}
 
 			else if (command == "removeInorder") {
-				n = line.substr(index + 1);
+				n = line;
 
 				for (int j = 0; j < n.length(); j++) {
 					if (isdigit(n[j]) == 0) {
@@ -206,4 +207,3 @@ int main() {
 
 	return 0;
 }
-

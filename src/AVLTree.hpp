@@ -39,6 +39,10 @@ AVLTree::~AVLTree() {
 	}
 }
 
+Node* AVLTree::GetRoot() {
+	return root;
+}
+
 Node* AVLTree::ShiftLeft(Node* node) {
 	Node* grandchild = node->right->left;
 	Node* newParent = node->right;
@@ -223,6 +227,10 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 	else if (node->ufid > ufid) {
 		RemoveHelper(node->left, ufid, node);
 	}
+	else {
+		cout << "unsuccessful" << endl;
+		return;
+	}
 }
 
 void AVLTree::SearchNameHelper(string name) {
@@ -231,10 +239,10 @@ void AVLTree::SearchNameHelper(string name) {
 		cout << "unsuccessful" << endl;
 		return;
 	}
-	Node* temp = root;
+	Node* temp = GetRoot();
 	stack<Node*> s;
 	s.push(temp);
-	while (temp != nullptr) {
+	while (!s.empty()) {
 		temp = s.top();
 		s.pop();
 		if (temp->name == name) {
@@ -246,7 +254,6 @@ void AVLTree::SearchNameHelper(string name) {
 		if (temp->left != nullptr)
 			s.push(temp->left);
 	}
-	delete temp;
 	if (!found)
 		cout << "unsuccessful" << endl;
 }
@@ -258,7 +265,6 @@ void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	}
 	if (node->ufid == ufid) {
 		cout << node->name << endl;
-		cout << "successful" << endl;
 		return;
 	}
 	else if (node->ufid < ufid) {
@@ -363,7 +369,7 @@ void AVLTree::RemoveInorderHelper(Node* node, int n) {
 }
 
 void AVLTree::Insert(string name, string ufid) {
-	InsertHelper(root, name, ufid);
+	InsertHelper(GetRoot(), name, ufid);
 	if (successfulInsert) {
 		cout << "successful" << endl;
 		successfulInsert = false;
@@ -371,7 +377,7 @@ void AVLTree::Insert(string name, string ufid) {
 }
 
 void AVLTree::Remove(string ufid) {
-	RemoveHelper(root, ufid, nullptr);
+	RemoveHelper(GetRoot(), ufid, nullptr);
 }
 
 void AVLTree::SearchName(string name) {
@@ -379,23 +385,35 @@ void AVLTree::SearchName(string name) {
 }
 
 void AVLTree::SearchID(string ufid) {
-	SearchIDHelper(root, ufid);
+	SearchIDHelper(GetRoot(), ufid);
 }
 
 void AVLTree::PrintInorder() {
-	PrintInorderHelper(root);
+	if (GetRoot() == nullptr) {
+		cout << "unsuccessful" << endl;
+		return;
+	}
+	PrintInorderHelper(GetRoot());
 	firstInorder = true;
 	cout << endl;
 }
 
 void AVLTree::PrintPreorder() {
-	PrintPreorderHelper(root);
+	if (GetRoot() == nullptr) {
+		cout << "unsuccessful" << endl;
+		return;
+	}
+	PrintPreorderHelper(GetRoot());
 	firstPreorder = true;
 	cout << endl;
 }
 
 void AVLTree::PrintPostorder() {
-	PrintPostorderHelper(root);
+	if (GetRoot() == nullptr) {
+		cout << "unsuccessful" << endl;
+		return;
+	}
+	PrintPostorderHelper(GetRoot());
 	firstPostorder = true;
 	cout << endl;
 }
@@ -405,5 +423,5 @@ void AVLTree::PrintLevelCount() {
 }
 
 void AVLTree::RemoveInorder(int n) {
-	RemoveInorderHelper(root, n);
+	RemoveInorderHelper(GetRoot(), n);
 }
