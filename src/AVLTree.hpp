@@ -197,19 +197,19 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 			delete node;
 		}
 		else {
-			cout << "else" << endl;
-			Node* min = node->right;
-			p = node->right;
+			Node* min = node;
+			p = node;
 			while (min->left != nullptr) {
-				cout << "while time" << endl;
 				p = min;
 				min = min->left;
 			}
 			node->name = min->name;
 			node->ufid = min->ufid;
 			if (min->right != nullptr) {
-				cout << "min->right != nullptr" << endl;
 				p->left = min->right;
+			}
+			else {
+				p->left = nullptr;
 			}
 			removeFound = true;
 			delete min;
