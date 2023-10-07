@@ -8,6 +8,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
+//AVL Tree class
 class AVLTree {
 	Node* root;
 	Node* GetRoot();

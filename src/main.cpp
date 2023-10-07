@@ -14,11 +14,6 @@ using std::vector;
 using std::getline;
 using std::stoi;
 
-/* Note:
-	1. You will have to comment main() when unit testing your code because catch uses its own main().
-	2. You will submit this main.cpp file and any header files you have on Gradescope.
-*/
-
 int main() {
 	int index = 0;
 	string numLinesS = "";
@@ -32,6 +27,7 @@ int main() {
 	bool run = false;
 	AVLTree tree;
 
+	//Get number of instructions
 	getline(cin, numLinesS);
 	int numLines = stoi(numLinesS);
 
@@ -43,6 +39,7 @@ int main() {
 			command = line.substr(0, index);
 			line = line.substr(index + 1);
 
+			//Insert
 			if (command == "insert") {
 				index = line.find('\"');
 
@@ -73,7 +70,6 @@ int main() {
 
 									for (int j = 0; j < ufid.length(); j++) {
 										if (isdigit(ufid[j]) == 0) {
-											cout << "isdigit false" << endl;
 											isDigit = false;
 											break;
 										}
@@ -91,6 +87,7 @@ int main() {
 				}
 			}
 
+			//Remove
 			else if (command == "remove") {
 				ufid = line;
 
@@ -110,8 +107,10 @@ int main() {
 				}
 			}
 
+			//Search
 			else if (command == "search") {
 				index = line.find('\"');
+				//SearchName
 				if (index != -1) {
 					line = line.substr(index + 1);
 					index = line.find('\"');
@@ -136,6 +135,7 @@ int main() {
 					}
 				}
 
+				//SearchID
 				if (index == -1) {
 					ufid = line.substr(index + 1);
 
@@ -157,6 +157,7 @@ int main() {
 				}
 			}
 
+			//RemoveInorder
 			else if (command == "removeInorder") {
 				n = line;
 
@@ -178,27 +179,32 @@ int main() {
 		else {
 			command = line;
 
+			//PrintInorder
 			if (command == "printInorder") {
 				tree.PrintInorder();
 				run = true;
 			}
 
+			//PrintPreorder
 			else if (command == "printPreorder") {
 				tree.PrintPreorder();
 				run = true;
 			}
 
+			//PrintPostorder
 			else if (command == "printPostorder") {
 				tree.PrintPostorder();
 				run = true;
 			}
 
+			//PrintLevelCount
 			else if (command == "printLevelCount") {
 				tree.PrintLevelCount();
 				run = true;
 			}
 		}
 
+		//If no command was run successfully
 		if (!run) {
 			cout << "unsuccessful" << endl;
 		}

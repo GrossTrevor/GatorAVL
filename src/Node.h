@@ -3,6 +3,7 @@
 
 using std::string;
 
+//Contains the data for each node in the tree
 struct Node {
 	string name;
 	string ufid;

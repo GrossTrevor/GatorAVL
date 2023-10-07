@@ -18,10 +18,12 @@ bool shifted = false;
 int levelCount = 0;
 int removeCount = 0;
 
+//Construct an empty AVL tree
 AVLTree::AVLTree() {
 	root = nullptr;
 }
 
+//Destroy AVL tree
 AVLTree::~AVLTree() {
 	if (root != nullptr) {
 		Node* temp = root;
@@ -39,10 +41,12 @@ AVLTree::~AVLTree() {
 	}
 }
 
+//Returns the root of the tree
 Node* AVLTree::GetRoot() {
 	return root;
 }
 
+//Shifts nodes to the left
 Node* AVLTree::ShiftLeft(Node* node) {
 	Node* grandchild = node->right->left;
 	Node* newParent = node->right;
@@ -50,6 +54,8 @@ Node* AVLTree::ShiftLeft(Node* node) {
 	node->right = grandchild;
 	if (node == root)
 		root = newParent;
+
+	//Update heights
 	node->height = 1 + std::max(node->left ? node->left->height : 0, node->right ? node->right->height : 0);
 	if (grandchild != nullptr)
 		grandchild->height = 1 + std::max(grandchild->left ? grandchild->left->height : 0, grandchild->right ? grandchild->right->height : 0);
@@ -57,6 +63,7 @@ Node* AVLTree::ShiftLeft(Node* node) {
 	return newParent;
 }
 
+//Shifts nodes to the right
 Node* AVLTree::ShiftRight(Node* node) {
 	Node* grandchild = node->left->right;
 	Node* newParent = node->left;
@@ -64,6 +71,8 @@ Node* AVLTree::ShiftRight(Node* node) {
 	node->left = grandchild;
 	if (node == root)
 		root = newParent;
+
+	//Update heights
 	node->height = 1 + std::max(node->left ? node->left->height : 0, node->right ? node->right->height : 0);
 	if (grandchild != nullptr)
 		grandchild->height = 1 + std::max(grandchild->left ? grandchild->left->height : 0, grandchild->right ? grandchild->right->height : 0);
@@ -71,6 +80,7 @@ Node* AVLTree::ShiftRight(Node* node) {
 	return newParent;
 }
 
+//Inserts a node into the tree
 Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	if (node == nullptr) {
 		node = new Node;
@@ -93,73 +103,100 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	else if (node->ufid < ufid) {
 		node->right = InsertHelper(node->right, name, ufid);
 	}
+
+	//Get height of node
 	node->height = 1 + std::max(node->left ? node->left->height : 0, node->right ? node->right->height : 0);
 
+	//Balance tree:
+
+	//Right x case
 	if (node->left != nullptr && node->right != nullptr && (node->left->height - node->right->height) > 1) {
+		//Right case
 		if(node->left->left != nullptr && node->left->right != nullptr && node->left->left->height > node->left->right->height)
 			node = ShiftRight(node);
+		//Left right case
 		else if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height < node->left->right->height) {
 			node->left = ShiftLeft(node->left);
 			node = ShiftRight(node);
 		}
+		//Right case
 		else if (node->left->left != nullptr && node->left->right == nullptr)
 			node = ShiftRight(node);
+		//Left right case
 		else if (node->left != nullptr && node->left->right != nullptr) {
 			node->left = ShiftLeft(node->left);
 			node = ShiftRight(node);
 		}
+		//Right case
 		else {
 			node = ShiftRight(node);
 		}
 	}
+	//Right x case
 	else if (node->left != nullptr && node->right == nullptr && node->left->height > 1) {
+		//Right case
 		if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height > node->left->right->height)
 			node = ShiftRight(node);
+		//Left right case
 		else if (node->left->left != nullptr && node->left->right != nullptr && node->left->left->height < node->left->right->height) {
 			node->left = ShiftLeft(node->left);
 			node = ShiftRight(node);
 		}
+		//Right case
 		else if (node->left->left != nullptr && node->left->right == nullptr)
 			node = ShiftRight(node);
+		//Left right case
 		else if (node->left != nullptr && node->left->right != nullptr) {
 			node->left = ShiftLeft(node->left);
 			node = ShiftRight(node);
 		}
+		//Right case
 		else {
 			node = ShiftRight(node);
 		}
 	}
-
+	//Left x case
 	else if (node->left != nullptr && node->right != nullptr && (node->right->height - node->left->height) > 1) {
+		//Left case
 		if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height > node->right->left->height)
 			node = ShiftLeft(node);
+		//Right left case
 		else if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height < node->right->left->height) {
 			node->right = ShiftRight(node->right);
 			node = ShiftLeft(node);
 		}
+		//Left case
 		else if (node->right->right != nullptr && node->right->left == nullptr)
 			node = ShiftLeft(node);
+		//Right left case
 		else if (node->right != nullptr && node->right->left != nullptr) {
 			node->right = ShiftRight(node->right);
 			node = ShiftLeft(node);
 		}
+		//Left case
 		else {
 			node = ShiftLeft(node);
 		}
 	}
+	//Left x case
 	else if (node->right != nullptr && node->left == nullptr && node->right->height > 1) {
+		//Left case
 		if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height > node->right->left->height)
 			node = ShiftLeft(node);
+		//Right left case
 		else if (node->right->right != nullptr && node->right->left != nullptr && node->right->right->height < node->right->left->height) {
 			node->right = ShiftRight(node->right);
 			node = ShiftLeft(node);
 		}
+		//Left case
 		else if (node->right->right != nullptr && node->right->left == nullptr)
 			node = ShiftLeft(node);
+		//Right left case
 		else if (node->right != nullptr && node->right->left != nullptr) {
 			node->right = ShiftRight(node->right);
 			node = ShiftLeft(node);
 		}
+		//Left case
 		else {
 			node = ShiftLeft(node);
 		}
@@ -167,6 +204,7 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 	return node;
 }
 
+//Removes a node from the tree
 void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 	if (node == nullptr) {
 		if(!removeFound)
@@ -174,6 +212,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 		return;
 	}
 	else if (node->ufid == ufid) {
+		//If node is a leaf
 		if (node->left == nullptr && node->right == nullptr) {
 			if (node != root){
 				if (p->left == node)
@@ -184,6 +223,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 			removeFound = true;
 			delete node;
 		}
+		//If node has one child
 		else if (node->left == nullptr) {
 			if (p->left == node)
 				p->left = node->right;
@@ -192,6 +232,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 			removeFound = true;
 			delete node;
 		}
+		//If node has one child
 		else if (node->right == nullptr) {
 			if (p->left == node)
 				p->left = node->left;
@@ -200,6 +241,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 			removeFound = true;
 			delete node;
 		}
+		//If node has two children
 		else {
 			Node* min = node;
 			p = node;
@@ -233,6 +275,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 	}
 }
 
+//Searches for a node by name
 void AVLTree::SearchNameHelper(string name) {
 	bool found = false;
 	if (root == nullptr) {
@@ -258,6 +301,7 @@ void AVLTree::SearchNameHelper(string name) {
 		cout << "unsuccessful" << endl;
 }
 
+//Searches for a node by ufid
 void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	if (node == nullptr) {
 		cout << "unsuccessful" << endl;
@@ -275,6 +319,7 @@ void AVLTree::SearchIDHelper(Node* node, string ufid) {
 	}
 }
 
+//Prints the tree in order
 void AVLTree::PrintInorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
@@ -290,6 +335,7 @@ void AVLTree::PrintInorderHelper(Node* node) {
 
 }
 
+//Prints the tree in preorder
 void AVLTree::PrintPreorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
@@ -303,6 +349,7 @@ void AVLTree::PrintPreorderHelper(Node* node) {
 	PrintPreorderHelper(node->right);
 }
 
+//Prints the tree in postorder
 void AVLTree::PrintPostorderHelper(Node* node) {
 	if (node == nullptr)
 		return;
@@ -316,6 +363,7 @@ void AVLTree::PrintPostorderHelper(Node* node) {
 		cout << ", " << node->name;
 }
 
+//Prints the number of levels in the tree
 void AVLTree::PrintLevelCountHelper() {
 	if (root == nullptr) {
 		cout << "0" << endl;
@@ -357,6 +405,7 @@ void AVLTree::PrintLevelCountHelper() {
 	cout << level << endl;
 }
 
+//Removes the nth node in the tree
 void AVLTree::RemoveInorderHelper(Node* node, int n) {
 	if (node == nullptr)
 		return;
@@ -367,6 +416,8 @@ void AVLTree::RemoveInorderHelper(Node* node, int n) {
 	}
 	RemoveInorderHelper(node->right, n - 1);
 }
+
+//PUBLIC FUNCTIONS:
 
 void AVLTree::Insert(string name, string ufid) {
 	InsertHelper(GetRoot(), name, ufid);
