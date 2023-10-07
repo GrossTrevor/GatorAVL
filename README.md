@@ -31,83 +31,83 @@ In this project, you will be designing a custom AVL tree to organize UF student 
 
 Insert(string name, string ufid) – O(log (n))
 
-The insert func􀆟on calls the InsertHelper() func􀆟on that recursively moves through the tree and, since
+The insert function calls the InsertHelper() function that recursively moves through the tree and, since
 the tree is binary, it ignores half of the tree each 􀆟me by comparing the ufids of the current node and
-the poten􀆟al next nodes. There are no loops and InsertHelper() only calls Shi􀅌Le􀅌() and Shi􀅌Right(),
+the potential next nodes. There are no loops and InsertHelper() only calls ShiftLeft() and ShiftRight(),
 which are of constant 􀆟me complexity.
 
 
 Remove(string ufid) – O(n log (n))
 
-The remove func􀆟on calls the RemoveHelper() func􀆟on that recursively moves through the tree and,
-since the tree is binary, it ignores half of the tree each 􀆟me by comparing the ufids of the current node
-and the poten􀆟al next nodes. There is one loop that only runs if the node to be deleted has two children,
-and if that node’s le􀅌 child has more le􀅌 children, increasing the worst case complexity to O(n log(n))
+The remove function calls the RemoveHelper() function that recursively moves through the tree and,
+since the tree is binary, it ignores half of the tree each time by comparing the ufids of the current node
+and the potential next nodes. There is one loop that only runs if the node to be deleted has two children,
+and if that node’s left child has more left children, increasing the worst case complexity to O(n log(n))
 instead of O(log (n)) like Insert().
 
 
 SearchName(string name) – O(n)
 
-The search name func􀆟on calls the SearchNameHelper() func􀆟on that traverses the en􀆟re tree in order,
-prin􀆟ng out the ufids of the matching names as it comes across them. Since the en􀆟re tree is traversed,
+The search name function calls the SearchNameHelper() function that traverses the entire tree in order,
+printing out the ufids of the matching names as it comes across them. Since the entire tree is traversed,
 the complexity is linear.
 
 
 SearchID(string ufid) – O(log (n))
 
-The search id func􀆟on calls the SearchIDHelper() func􀆟on that recursively moves through the tree and,
-since the tree is binary, it ignores half of the tree each 􀆟me by comparing the ufids of the current node
-and the poten􀆟al next nodes. There are no loops, meaning the complexity must be logarithmic.
+The search id function calls the SearchIDHelper() function that recursively moves through the tree and,
+since the tree is binary, it ignores half of the tree each time by comparing the ufids of the current node
+and the potential next nodes. There are no loops, meaning the complexity must be logarithmic.
 
 
 PrintInorder() – O(n)
 
-The print in order func􀆟on calls the PrintInorderHelper() func􀆟on that recursively traverses the en􀆟re
-tree in order, prin􀆟ng out the names as it comes across them. Since the en􀆟re tree is traversed, the
+The print in order function calls the PrintInorderHelper() func􀆟on that recursively traverses the entire
+tree in order, printing out the names as it comes across them. Since the entire tree is traversed, the
 complexity is linear.
 
 
 PrintPreorder() – O(n)
 
-The print preorder func􀆟on calls the PrintPreorderHelper() func􀆟on that recursively traverses the en􀆟re
-tree in preorder, prin􀆟ng out the names as it comes across them. Since the en􀆟re tree is traversed, the
+The print preorder function calls the PrintPreorderHelper() function that recursively traverses the entire
+tree in preorder, printing out the names as it comes across them. Since the entire tree is traversed, the
 complexity is linear.
 
 
 PrintPostorder() – O(n)
 
-The print postorder func􀆟on calls the PrintPostorderHelper() func􀆟on that recursively traverses the
-en􀆟re tree in postorder, prin􀆟ng out the names as it comes across them. Since the en􀆟re tree is
+The print postorder function calls the PrintPostorderHelper() function that recursively traverses the
+entire tree in postorder, printing out the names as it comes across them. Since the entire tree is
 traversed, the complexity is linear.
 
 
 PrintLevelCount() – O(n)
 
-The print level count functon calls the PrintLevelCountHelper() func􀆟on that loops through the en􀆟re
-tree while coun􀆟ng every possible loca􀆟on of a node un􀆟l it reaches the maximum for that level, then
+The print level count functon calls the PrintLevelCountHelper() function that loops through the entire
+tree while counting every possible location of a node until it reaches the maximum for that level, then
 moves to the next level. The farther that this code executes, the greater the level count that is output.
-Since the func􀆟on must traverse the en􀆟re tree, the complexity in linear.
+Since the function must traverse the entire tree, the complexity in linear.
 
 
 RemoveInorder(int n) – O(n2 log(n))
 
-The remove in order func􀆟on calls the RemoveInorderHelper() func􀆟on that recursively traverses the
-tree in order un􀆟l it reaches the correct node posi􀆟on based on the input, then it deletes the selected
-node by calling Remove(). Since this func􀆟on works under the same logic as PrintInorder() by recursively
-moving though the en􀆟re tree, the distance needed to travel is en􀆟re dependent on n, so the complexity
+The remove in order function calls the RemoveInorderHelper() function that recursively traverses the
+tree in order until it reaches the correct node posi􀆟on based on the input, then it deletes the selected
+node by calling Remove(). Since this function works under the same logic as PrintInorder() by recursively
+moving though the entire tree, the distance needed to travel is entire dependent on n, so the complexity
 is at least linear. However, since RemoveInorderHelper() calls Remove() to delete the selected node, the
 complexity of Remove() must also be counted, increasing the complexity to O(n2 log(n)).
 
 ## What did you learn from this assignment and what would you do differently if you had to start over?
 
 Obviously, I learned a lot about the inner workings of the AVL Tree data structure and, by extension,
-trees as a whole. This helped me to understand the usability of tree data structures in applica􀆟ons that
-require the user to access data via a star􀆟ng connec􀆟on point (e.g. the root). This, like the Minesweeper
+trees as a whole. This helped me to understand the usability of tree data structures in applications that
+require the user to access data via a starting connection point (e.g. the root). This, like the Minesweeper
 project from Prog. 2, also helped a lot with my comfortability with pointers as they are an integral part of
-programming, especially in C++. Furthermore, this project helped me with tes􀆟ng, something that I was
+programming, especially in C++. Furthermore, this project helped me with testing, something that I was
 definitely lacking in my previous programming works. If I had to start over, I would: A) start earlier,
 because the past couple of nights have been stressful, B) think recursively from the get-go, because I had
-to go back through and recurs-ify my func􀆟ons to make them run with be􀆩er complexi􀆟es, and C) ensure
-that memory management is done properly and I do not leave public loca􀆟ons open, another thing I had
-to go back and fix, taking a lot of extra 􀆟me. Overall, a very cool project, akin to the LinkedList, but a
+to go back through and recurs-ify my functions to make them run with better complexi􀆟es, and C) ensure
+that memory management is done properly and I do not leave public locations open, another thing I had
+to go back and fix, taking a lot of extra time. Overall, a very cool project, akin to the LinkedList, but a
 great added level of complexity with the balancing.
