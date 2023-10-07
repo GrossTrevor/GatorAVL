@@ -3,6 +3,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
+
 //Testing incorrect inputs using the Insert() function
 TEST_CASE("Insert Incorrect Commands", "[incorect]"){
 
