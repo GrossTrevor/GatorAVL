@@ -34,7 +34,7 @@ Insert(string name, string ufid) – O(log (n))
 The insert function calls the InsertHelper() function that recursively moves through the tree and, since
 the tree is binary, it ignores half of the tree each 􀆟me by comparing the ufids of the current node and
 the potential next nodes. There are no loops and InsertHelper() only calls ShiftLeft() and ShiftRight(),
-which are of constant 􀆟me complexity.
+which are of constant time complexity.
 
 
 Remove(string ufid) – O(n log (n))
@@ -92,7 +92,7 @@ Since the function must traverse the entire tree, the complexity in linear.
 RemoveInorder(int n) – O(n2 log(n))
 
 The remove in order function calls the RemoveInorderHelper() function that recursively traverses the
-tree in order until it reaches the correct node posi􀆟on based on the input, then it deletes the selected
+tree in order until it reaches the correct node position based on the input, then it deletes the selected
 node by calling Remove(). Since this function works under the same logic as PrintInorder() by recursively
 moving though the entire tree, the distance needed to travel is entire dependent on n, so the complexity
 is at least linear. However, since RemoveInorderHelper() calls Remove() to delete the selected node, the
@@ -107,7 +107,7 @@ project from Prog. 2, also helped a lot with my comfortability with pointers as 
 programming, especially in C++. Furthermore, this project helped me with testing, something that I was
 definitely lacking in my previous programming works. If I had to start over, I would: A) start earlier,
 because the past couple of nights have been stressful, B) think recursively from the get-go, because I had
-to go back through and recurs-ify my functions to make them run with better complexi􀆟es, and C) ensure
+to go back through and recurs-ify my functions to make them run with better complexities, and C) ensure
 that memory management is done properly and I do not leave public locations open, another thing I had
 to go back and fix, taking a lot of extra time. Overall, a very cool project, akin to the LinkedList, but a
 great added level of complexity with the balancing.
