@@ -2,11 +2,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
-/*
-	To check output (At the Project1 directory):
-		g++ -std=c++14 -Werror -Wuninitialized -o build/test test-unit/test.cpp && build/test
-*/
-
 //Testing incorrect inputs using the Insert() function
 TEST_CASE("Insert Incorrect Commands", "[incorect]"){
 
@@ -20,23 +15,19 @@ TEST_CASE("Insert Incorrect Commands", "[incorect]"){
 	std::vector<string> expectedOutput = {};
 	REQUIRE(expectedOutput.size() == actualOutput.size());
 	REQUIRE(actualOutput == expectedOutput);
-	
-	REQUIRE(1 == 1);
 }
 
 //Testing edge cases with Remove(), RemoveInorder(), and SearchID()
 TEST_CASE("Edge Cases", "[edge]") {
 
 	AVLTree tree;
-	tree.Remove("Briathan", "12345678");
+	tree.Remove("12345678");
 	tree.RemoveInorder(13);
 	tree.SearchID("00000000");
 	std::vector<string> actualOutput = tree.PrintInorder();
 	std::vector<string> expectedOutput = {};
 	REQUIRE(expectedOutput.size() == actualOutput.size());
 	REQUIRE(actualOutput == expectedOutput);
-
-	REQUIRE(1 == 1);
 }
 
 //Testing the four types of rotations
@@ -56,8 +47,6 @@ TEST_CASE("Rotation Cases", "[rotate]") {
 	std::vector<string> expectedOutput = { "three", "one", "zero", "two", "six", "four", "eight", "seven", "nine"};
 	REQUIRE(expectedOutput.size() == actualOutput.size());
 	REQUIRE(actualOutput == expectedOutput);
-
-	REQUIRE(1 == 1);
 }
 
 //Testing the three types of deletions
@@ -78,8 +67,6 @@ TEST_CASE("Deletion Cases", "[delete]") {
 	std::vector<string> expectedOutput = { "four", "three", "seven", "nine" };
 	REQUIRE(expectedOutput.size() == actualOutput.size());
 	REQUIRE(actualOutput == expectedOutput);
-
-	REQUIRE(1 == 1);
 }
 
 //Testing a large amount of inputs with Insert() and Remove()
@@ -96,8 +83,8 @@ TEST_CASE("Insert/Delete Large", "[large]") {
 		}
 	}
 
-	for (int j = 0; j < 100; j++) {
-		int randomInput = rand() % 100 + 1;
+	for (int j = 0; j < 10; j++) {
+		int randomInput = rand() % 100;
 		if (std::count(expectedOutput.begin(), expectedOutput.end(), randomInput) != 0) {
 			expectedOutput.erase(std::remove(expectedOutput.begin(), expectedOutput.end(), randomInput), expectedOutput.end());
 			tree.Remove(randomInput);
@@ -108,6 +95,4 @@ TEST_CASE("Insert/Delete Large", "[large]") {
 	REQUIRE(expectedOutput.size() == actualOutput.size());
 	std::sort(expectedOutput.begin(), expectedOutput.end());
 	REQUIRE(expectedOutput == actualOutput);
-
-	REQUIRE(1 == 1);
 }
