@@ -7,6 +7,7 @@
 		g++ -std=c++14 -Werror -Wuninitialized -o build/test test-unit/test.cpp && build/test
 */
 
+//Testing incorrect inputs using the Insert() function
 TEST_CASE("Insert Incorrect Commands", "[incorect]"){
 
 	AVLTree tree;
@@ -23,6 +24,7 @@ TEST_CASE("Insert Incorrect Commands", "[incorect]"){
 	REQUIRE(1 == 1);
 }
 
+//Testing edge cases with Remove(), RemoveInorder(), and SearchID()
 TEST_CASE("Edge Cases", "[edge]") {
 
 	AVLTree tree;
@@ -37,6 +39,7 @@ TEST_CASE("Edge Cases", "[edge]") {
 	REQUIRE(1 == 1);
 }
 
+//Testing the four types of rotations
 TEST_CASE("Rotation Cases", "[rotate]") {
 
 	AVLTree tree;
@@ -57,6 +60,7 @@ TEST_CASE("Rotation Cases", "[rotate]") {
 	REQUIRE(1 == 1);
 }
 
+//Testing the three types of deletions
 TEST_CASE("Deletion Cases", "[delete]") {
 
 	AVLTree tree;
@@ -78,6 +82,7 @@ TEST_CASE("Deletion Cases", "[delete]") {
 	REQUIRE(1 == 1);
 }
 
+//Testing a large amount of inputs with Insert() and Remove()
 TEST_CASE("Insert/Delete Large", "[large]") {
 
 	AVLTree tree;
@@ -91,11 +96,11 @@ TEST_CASE("Insert/Delete Large", "[large]") {
 		}
 	}
 
-	for (int i = 0; i < 100; i++) {
-		int randomInput = rand();
-		if (std::count(expectedOutput.begin(), expectedOutput.end(), randomInput) == 0) {
-			expectedOutput.push_back(randomInput);
-			tree.Insert(randomInput);
+	for (int j = 0; j < 100; j++) {
+		int randomInput = rand() % 100 + 1;
+		if (std::count(expectedOutput.begin(), expectedOutput.end(), randomInput) != 0) {
+			expectedOutput.erase(std::remove(expectedOutput.begin(), expectedOutput.end(), randomInput), expectedOutput.end());
+			tree.Remove(randomInput);
 		}
 	}
 
