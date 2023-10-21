@@ -208,6 +208,9 @@ int main() {
 		if (!run) {
 			cout << "unsuccessful" << endl;
 		}
+		isAlpha = true;
+		isDigit = true;
+		run = false;
 		index = 0;
 	}
 

@@ -23,6 +23,7 @@ class AVLTree {
 	void PrintPostorderHelper(Node* node);
 	void PrintLevelCountHelper();
 	void RemoveInorderHelper(Node* node, int n);
+	void RemoveInorderZeroHelper(Node* node);
 
 public:
 	AVLTree();

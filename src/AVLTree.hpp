@@ -14,9 +14,12 @@ bool firstPreorder = true;
 bool firstPostorder = true;
 bool successfulInsert = false;
 bool shifted = false;
+bool inorderRemoveZeroFirst = true;
 
 int levelCount = 0;
 int removeCount = 0;
+int numNodes = 0;
+int inorderCount = 0;
 
 //Construct an empty AVL tree
 AVLTree::AVLTree() {
@@ -89,6 +92,7 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 		node->left = nullptr;
 		node->right = nullptr;
 		successfulInsert = true;
+		numNodes++;
 		if (firstNode) {
 			firstNode = false;
 			root = node;
@@ -207,8 +211,6 @@ Node* AVLTree::InsertHelper(Node* node, string name, string ufid) {
 //Removes a node from the tree
 void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 	if (node == nullptr) {
-		if(!removeFound)
-			cout << "unsuccessful" << endl;
 		return;
 	}
 	else if (node->ufid == ufid) {
@@ -261,6 +263,7 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 			delete min;
 		}
 		cout << "successful" << endl;
+		numNodes--;
 		return;
 	}
 	else if (node->ufid < ufid) {
@@ -268,10 +271,6 @@ void AVLTree::RemoveHelper(Node* node, string ufid, Node* p){
 	}
 	else if (node->ufid > ufid) {
 		RemoveHelper(node->left, ufid, node);
-	}
-	else {
-		cout << "unsuccessful" << endl;
-		return;
 	}
 }
 
@@ -410,11 +409,23 @@ void AVLTree::RemoveInorderHelper(Node* node, int n) {
 	if (node == nullptr)
 		return;
 	RemoveInorderHelper(node->left, n);
-	if (n == 0) {
+	if (inorderCount == n) {
 		Remove(node->ufid);
 		return;
 	}
-	RemoveInorderHelper(node->right, n - 1);
+	inorderCount++;
+	RemoveInorderHelper(node->right, n);
+}
+
+void AVLTree::RemoveInorderZeroHelper(Node* node) {
+	if (node == nullptr)
+		return;
+	RemoveInorderZeroHelper(node->left);
+	if (inorderRemoveZeroFirst) {
+		inorderRemoveZeroFirst = false;
+		Remove(node->ufid);
+		return;
+	}
 }
 
 //PUBLIC FUNCTIONS:
@@ -429,6 +440,9 @@ void AVLTree::Insert(string name, string ufid) {
 
 void AVLTree::Remove(string ufid) {
 	RemoveHelper(GetRoot(), ufid, nullptr);
+	if (!removeFound)
+		cout << "unsuccessful" << endl;
+	removeFound = false;
 }
 
 void AVLTree::SearchName(string name) {
@@ -474,5 +488,13 @@ void AVLTree::PrintLevelCount() {
 }
 
 void AVLTree::RemoveInorder(int n) {
-	RemoveInorderHelper(GetRoot(), n);
+	if (n == 0) {
+		RemoveInorderZeroHelper(GetRoot());
+		inorderRemoveZeroFirst = true;
+	}
+	else if (numNodes >= n) {
+		RemoveInorderHelper(GetRoot(), n);
+	}
+	else
+		cout << "unsuccessful" << endl;
 }
